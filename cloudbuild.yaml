@@ -1,4 +1,3 @@
 steps:
-  # Build kritis
+  # Create github release
   - name: "gcr.io/aprindle-vm/github-releaser"
-    args: ["--template", "/templates/github-release-template"]

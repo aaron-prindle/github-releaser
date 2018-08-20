@@ -20,7 +20,8 @@ RUN apt-get update && \
 
 ENV EXEC_TEMPLATE_VERSION 1.0.0
 RUN curl -LO https://github.com/groob/exec-template/releases/download/${EXEC_TEMPLATE_VERSION}/exec-template-linux-amd64 && \
-    mv exec-template-linux-amd64 /usr/local/bin/exec-template
+    mv exec-template-linux-amd64 /usr/local/bin/exec-template && \
+    chmod +x /usr/local/bin/exec-template
 
 ENV CLOUD_SDK_VERSION 193.0.0
 RUN curl -LO https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
@@ -38,7 +39,7 @@ COPY --from=golang:1.10 /usr/local/go /usr/local/go
 ENV PATH /usr/local/go/bin:/go/bin:${PATH}
 ENV GOPATH /go/
 
-WORKDIR /go/src/github.com/grafeas/kritis
+WORKDIR /go/src/github.com/aaron-prindle/github-releaser
 
 COPY . .
 
@@ -46,4 +47,4 @@ FROM builder as releasing
 
 RUN go get github.com/aktau/github-release
 
-CMD ["hack/github-release.sh"]
+CMD ["./hack/github-release.sh"]

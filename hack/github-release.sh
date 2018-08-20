@@ -16,16 +16,18 @@
 
 set -ex
 
-export GITHUB_ORGANIZATION="aaron-prindle"
-export GITHUB_REPO="github-releaser"
-export PROJECT_NAME="github-releaser"
-export TAG_NAME="vX.Y.Z"
+# export GITHUB_ORGANIZATION="aaron-prindle"
+# export GITHUB_REPO="github-releaser"
+# export TAG_NAME="vX.Y.Z"
+# export TEMPLATE_DIR="templates/github-release-template.txt"
+# export GITHUB_TOKEN_BUCKET="gs://project/github-token"
 
-gsutil cp gs://aprindle-stuff/github-token .
+# TODO(aaron-prindle) add validation that all env vars are set
+gsutil cp ${GITHUB_TOKEN_BUCKET} .
 export GITHUB_TOKEN=$(cat github-token)
 export DESCRIPTION=$(exec-template \
-                       -json='{"Version": "${TAG_NAME}"}' \
-                       -template='templates/github-release-template.txt')
+                       -json="{\"Version\": \"${TAG_NAME}\"}" \
+                       -template=${TEMPLATE_DIR})
 
 # Deleting release from github before creating new one
 github-release delete --user ${GITHUB_ORGANIZATION} --repo ${GITHUB_REPO} --tag ${TAG_NAME} || true

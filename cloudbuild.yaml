@@ -1,3 +1,8 @@
 steps:
   # Create github release
   - name: "gcr.io/aprindle-vm/github-releaser"
+    env: ["GITHUB_ORGANIZATION=aaron-prindle",
+           "GITHUB_REPO=github-releaser",
+           "TAG_NAME=vA.B.C",
+           "TEMPLATE_DIR=templates/github-release-template.txt",            
+           "GITHUB_TOKEN_BUCKET=gs://aprindle-stuff/github-token"]
